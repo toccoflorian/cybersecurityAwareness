@@ -1,0 +1,18 @@
+@import "../src/styles/flex";
+@import "../src/styles/class";
+@import "../src/styles/debug";
+@import "../src/styles/reset";
+@import "../src/styles/utils";
+@import "../src/styles/variables";
+
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: inherit;
+}

@@ -1,0 +1,16 @@
+.btn,
+select {
+    min-width: 100px;
+    height: max-content;
+    padding: 5px 10px;
+    border-radius: 8px;
+    // color: white;
+}
+
+.btn {
+    background-color: var(--button-color);
+}
+
+select {
+    background-color: var(--select-color);
+}
