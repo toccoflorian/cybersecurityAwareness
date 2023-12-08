@@ -11,7 +11,7 @@ import styles from "./ButtonBar.module.scss";
 export default function ButtonBar() {
 
     return (<>
-        <div className={`${styles.buttonBarContainer} d-flex flex-wrap justify-space-e align-center debuggreen`}>
+        <div className={`${styles.buttonBarContainer} d-flex flex-wrap justify-space-e align-center `}>
             <Navigation />
             <Download />
             <Execute />

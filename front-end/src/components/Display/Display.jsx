@@ -4,7 +4,7 @@ export default function Display() {
 
     return (<>
 
-        <div className={`${styles.displayContainer} debugyellow`}>
+        <div className={`${styles.displayContainer} `}>
             <p>retour d&#39;information</p>
         </div>
 

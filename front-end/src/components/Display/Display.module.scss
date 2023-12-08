@@ -1,5 +1,8 @@
 .displayContainer {
-    height: 100%;
+    height: 600px;
+    overflow: scroll;
     padding: 5px;
-    border-radius: 15px;
+    margin: 0 10px;
+    // border-radius: 15px;
+    background-color: lightgray;
 }
