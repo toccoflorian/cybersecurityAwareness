@@ -20,3 +20,7 @@ while True:
     else:
         print("Connecter au serveur")
         break
+
+print(s.recv(5)
+)
+time.sleep(500)
