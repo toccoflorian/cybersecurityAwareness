@@ -10,7 +10,7 @@ export function DataProvider({ children }) {
     async function fetchData(endpoint = null, content, returnContentType = null) {
 
 
-        let url = "http://127.0.0.1:12000/";
+        let url = "http://localhost:12000/";
         endpoint && (url = url + endpoint)
         console.log(url);
         const response = await fetch(url, {
