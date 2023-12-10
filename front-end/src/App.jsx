@@ -11,13 +11,14 @@ import Content from "./Layouts/Content/Content"
 
 function App() {
 
+
   const [firstCommande, setfirstCommande] = useState(true)
 
 
   return (
     <>
 
-      <DataProvider test={true}>
+      <DataProvider>
         <Header />
         <Content />
       </DataProvider>

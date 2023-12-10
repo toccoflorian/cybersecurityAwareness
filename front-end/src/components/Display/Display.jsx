@@ -6,6 +6,7 @@ export default function Display() {
 
     const { responseServer, fetchData } = useContext(APIContext);
     const [content, setContent] = useState([]);
+
     useEffect(() => {
         setContent([...content, "    --------------------------", responseServer])
 
@@ -14,7 +15,15 @@ export default function Display() {
     return (<>
 
         <div className={`${styles.displayContainer} `}>
-            {content.map((line, i) => <p key={i}>{line}</p>)}
+            <ul>
+
+                {Object.values(content)
+                    .map((element, i) => <li key={i}><ul>{element
+                        .split(" -%-")
+                        .map((dos, j) => {
+                            return <li key={j}>{dos}</li>
+                        })}</ul></li>)}
+            </ul>
         </div>
 
     </>)
