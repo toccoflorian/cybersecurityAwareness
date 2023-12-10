@@ -80,7 +80,7 @@ def send_command(connexion_socket, client_adresse, command):
         if dl_filename:
              # Chemin du dossier contenant le script actuel
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            dir = base_dir + "\\fichiers recçus\\"
+            dir = base_dir + "\\fichiers reçus\\"
             f = open(dir + "\\" + dl_filename, "wb")
             f.write(datas)
             f.close()

@@ -6,7 +6,6 @@ import datetime
 import json
 import os
 
-import socket_serveur as sock_server
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +17,16 @@ def navigate():
     result = requests.get("http://localhost:12001/get_current_dir")
     print(result.content.decode())
     return result.content
+
+
+# aller dans un dossier
+@app.route("/go_dir", methods=["POST", "GET"])
+def go_dir():
+    r = request.get_data()
+    if r.decode("utf-8")[-1] == "@":
+        return f"{r.decode('utf-8')} n'est pas un dossier, imposible de naviguer dedans."
+    r = requests.get("http://localhost:12001/go_dir", data=r)
+    return r.content
 
 
 # aller en arrière
@@ -38,11 +47,11 @@ def screeshot():
     # Chemin du dossier contenant le script actuel
     print(image.content)
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    dir = base_dir + "\\fichiers recçus\\"
+    dir = base_dir + "\\fichiers reçus\\"
     f = open(dir + filename, "wb")
     f.write(image.content)
     f.close()
-    return filename + " enregistré avec succès!"
+    return f"{filename} enregistré avec succès! DESTINATION: {dir}"
     # except:
     #     return "Erreur lors de la capture d'écran"
 
@@ -50,8 +59,18 @@ def screeshot():
 # download
 @app.route("/download", methods=["POST", "GET"])
 def download():
-    command = request.get_data()
-    result = requests.get("http://localhost:12001/download", data=command)
+    r = request.get_data()
+    print(r)
+    filename = json.loads(r)
+    if filename[-1] != "@":
+        return f"'{filename}' n'est pas un fichier, veillez télécharger un fichier à la fois."
+    result = requests.get("http://localhost:12001/download", data=r)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    dir = base_dir + "\\fichiers reçus\\" + json.loads(r).split("\\")[-1][:-1]
+    f = open(dir, "wb")
+    f.write(result.content)
+    f.close()
+    return result.content
 
 
 if __name__ == "__main__":
