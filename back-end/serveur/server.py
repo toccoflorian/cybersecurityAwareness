@@ -7,6 +7,10 @@ import json
 import os
 
 
+HOST = "localhost"
+BASE_URL = f"http://{HOST}:12001"
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -14,7 +18,7 @@ CORS(app)
 @app.route("/get_current_dir", methods=["POST", "GET"])
 def navigate():
     # try:
-    result = requests.get("http://localhost:12001/get_current_dir")
+    result = requests.get(f"{BASE_URL}/get_current_dir")
     print(result.content.decode())
     return result.content
 
@@ -24,18 +28,40 @@ def navigate():
 def go_dir():
     r = request.get_data()
     if r.decode("utf-8")[-1] == "@":
-        return f"{r.decode('utf-8')} n'est pas un dossier, imposible de naviguer dedans."
-    r = requests.get("http://localhost:12001/go_dir", data=r)
+        print(r.decode("utf-8")[-1])
+        return json.dumps(r.decode('utf-8') + " n'est pas un dossier, imposible de naviguer dedans.")
+    r = requests.get(f"{BASE_URL}/go_dir", data=r)
     return r.content
 
 
-# aller en arrière
+# aller dans le dossier parent
 @app.route("/go_back", methods=["POST", "GET"])
 def go_back():
     # try:
-    result = requests.get("http://localhost:12001/go_back")
+    result = requests.get(f"{BASE_URL}/go_back")
     print(result.content.decode())
     return result.content
+
+
+# executer un programme
+@app.route("/execute", methods=["POST", "GET"])
+def execute():
+    r = request.get_data()
+    if "@" not in r.decode("utf-8"):
+        response = f"{r.decode('utf-8')} n'est pas un programme, impossible de l'executer."
+        return response
+    filename = r.decode("utf-8")[:-1]
+    r = requests.get(f"{BASE_URL}/execute", data=filename)
+    return r.content
+
+
+# commande custom
+@app.route("/custom", methods=["POST", "GET"])
+def custom():
+    r = request.get_data()
+    command = r.decode("utf-8")
+    r = requests.get(f"{BASE_URL}/custom", data=command)
+    return r.content
     
 
 # screenshot
@@ -43,7 +69,7 @@ def go_back():
 def screeshot():
     filename = "Capture_" + datetime.datetime.strftime(datetime.datetime.now(), "%d-%m-%Y_%Hh%Mm%Ss") + ".png"
     # try:
-    image = requests.get("http://localhost:12001/screenshot")
+    image = requests.get(f"{BASE_URL}/screenshot")
     # Chemin du dossier contenant le script actuel
     print(image.content)
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -64,7 +90,7 @@ def download():
     filename = json.loads(r)
     if filename[-1] != "@":
         return f"'{filename}' n'est pas un fichier, veillez télécharger un fichier à la fois."
-    result = requests.get("http://localhost:12001/download", data=r)
+    result = requests.get(f"{BASE_URL}/download", data=r)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     dir = base_dir + "\\fichiers reçus\\" + json.loads(r).split("\\")[-1][:-1]
     f = open(dir, "wb")

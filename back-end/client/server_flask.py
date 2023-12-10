@@ -14,7 +14,7 @@ app = Flask(__name__)
 # obtenir le repertoire courant
 @app.route("/get_current_dir", methods=["GET", "POST"])
 def receive_command():
-    resultat = json.dumps(fonctions.lister_contenu())
+    resultat = fonctions.lister_contenu()
     return json.dumps((os.getcwd(), resultat))
 
 
@@ -22,18 +22,48 @@ def receive_command():
 @app.route("/go_dir", methods=["POST", "GET"])
 def go_dir():
     r = request.get_data()
-    
-    os.chdir("\\".join((os.getcwd(), r.decode("utf-8"))))
-    resultat = fonctions.lister_contenu()
-    return resultat
+    try:
+        
+        os.chdir("\\".join((os.getcwd(), r.decode("utf-8"))))
+        resultat = fonctions.lister_contenu()
+        return json.dumps(resultat)
+    except:
+        return json.dumps(f"{r.decode('utf-8')} n'éxiste pas dans ce dossier.")
 
 
-# aller en arrière
+# aller dans le dossier parent
 @app.route("/go_back", methods=["GET", "POST"])
 def go_back():
     os.chdir("\\".join(os.getcwd().split("\\")[:-1]))
     resultat = fonctions.lister_contenu()
-    return resultat
+    return json.dumps((os.getcwd(), resultat))
+    
+
+# executer un programme
+@app.route("/execute", methods=["POST", "GET"])
+def execute():
+    r = request.get_data()
+    try:
+        subprocess.run(r.decode("utf-8"), shell=True, universal_newlines=True)
+        return r.decode("utf-8") + " executer avec succes!"
+    except:
+        return "Impossible d'executer " + r  + " !"
+    
+
+    # commande custom
+@app.route("/custom", methods=["POST", "GET"])
+def custom():
+    r = request.get_data()
+    command = r.decode("utf-8")
+    result = subprocess.run(command, shell=True, capture_output=True, universal_newlines=True)
+    out = result.stdout
+    err = result.stderr
+    print(out)
+    print("err:", result)
+    if int(result.returncode) == 1:
+        return err.encode("utf-8")
+    else:
+        return out.encode("utf-8")
     
 
 
@@ -65,3 +95,5 @@ def download():
 
 if __name__ == "__main__":
     app.run(host="localhost", port=12001)
+
+

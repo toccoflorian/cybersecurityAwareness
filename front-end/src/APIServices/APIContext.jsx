@@ -6,6 +6,7 @@ export const APIContext = createContext();
 export function DataProvider({ children }) {
 
     const [responseServer, setResponseServeur] = useState("Bienvenue, connectez vous pour démmarer.");
+    const [displayContent, setDisplayContent] = useState(["Bienvenue, connectez vous pour démmarer."]);
 
     async function fetchData(endpoint = null, content, returnContentType = null) {
 
@@ -21,20 +22,22 @@ export function DataProvider({ children }) {
 
         switch (returnContentType) {
             case "json":
-                setResponseServeur(await response.json());
+                // console.log(response.json());
+
+                setDisplayContent([await response.json()]);
                 break;
             case "byte":
-                setResponseServeur(response.body);
+                setDisplayContent([...displayContent, response.body]);
                 break;
 
             default:
-                setResponseServeur(await response.text());
+                setDisplayContent([await response.text()]);
                 break;
         }
     }
 
     return (<>
-        <APIContext.Provider value={{ responseServer, fetchData }}>
+        <APIContext.Provider value={{ displayContent, fetchData }}>
             {children}
         </APIContext.Provider>
     </>)

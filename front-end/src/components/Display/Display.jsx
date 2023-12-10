@@ -4,25 +4,31 @@ import { APIContext } from "../../APIServices/APIContext";
 
 export default function Display() {
 
-    const { responseServer, fetchData } = useContext(APIContext);
-    const [content, setContent] = useState([]);
+    const { displayContent, fetchData } = useContext(APIContext);
 
-    useEffect(() => {
-        setContent([...content, "    --------------------------", responseServer])
 
-    }, [responseServer])
+
 
     return (<>
 
         <div className={`${styles.displayContainer} `}>
             <ul>
 
-                {Object.values(content)
-                    .map((element, i) => <li key={i}><ul>{element
-                        .split(" -%-")
-                        .map((dos, j) => {
-                            return <li key={j}>{dos}</li>
-                        })}</ul></li>)}
+                {displayContent.
+                    map((element, index) => {
+                        let newElement = [];
+                        if (element.length > 1 && typeof element[1] !== "string") {
+                            newElement = [element[0], ...element[1]]
+                        } else {
+                            newElement = element
+                        }
+
+                        return <li key={index}>{typeof newElement !== "object" ?
+                            newElement
+                            :
+                            <ul> CONTENU: {newElement.
+                                map((element, index) => <li key={index}>{element}</li>)}</ul>}</li>
+                    })}
             </ul>
         </div>
 

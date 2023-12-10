@@ -1,6 +1,7 @@
 .displayContainer {
     height: 600px;
     overflow: scroll;
+    scrollTop: scrollHeight;
     padding: 5px;
     margin: 0 10px;
     // border-radius: 15px;

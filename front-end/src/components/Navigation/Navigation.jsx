@@ -3,28 +3,15 @@ import { APIContext } from "../../APIServices/APIContext"
 
 export default function Navigation() {
 
-    const { fetchData, responseServer } = useContext(APIContext);
-    const [currentDir, setCurrentDir] = useState([]);
+    const { fetchData, displayContent } = useContext(APIContext);
+    const [inputContent, setInputContent] = useState("");
 
-
-    async function handleFocus() {
-        fetchData('navigate', "dir")
-        console.log(await responseServer);
-        setCurrentDir(await responseServer.split(" -%- "))
-    }
-
-    function handleChange(e) {
-
-        fetchData("navigate", "cd " + e.target.value)
-        // setTimeout(() => { }, 1000)
-
-
+    function handleGoDir() {
+        fetchData("go_dir", inputContent, "json")
     }
 
     function handleBack() {
-        fetchData('navigate', "cd ..")
-
-
+        fetchData('go_back', null, "json")
     }
 
 
@@ -33,14 +20,10 @@ export default function Navigation() {
 
             <div className={`mb10`}>
 
-                {/* <button className={`btn`}>aller dans</button> */}
-                <select onChange={handleChange} onFocus={handleFocus} defaultValue="" placeholder="Aller dans le répertoire">
-                    <option disabled value="">Aller dans le répertoire</option>
-                    {currentDir.map((element, i) => <option key={i} value={element}>{element}</option>)}
-
-                </select>
+                <input onChange={(e) => setInputContent(e.target.value)} type="text" />
+                <button onClick={handleGoDir}>Aller</button>
             </div>
-
+            <button onClick={() => fetchData("get_current_dir", null, "json")}>Voir</button>
             <button onClick={handleBack} className={`btn`}>précedent</button>
 
         </div>
