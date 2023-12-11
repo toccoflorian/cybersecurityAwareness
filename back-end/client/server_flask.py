@@ -25,7 +25,7 @@ def go_dir():
     try:
         os.chdir("\\".join((os.getcwd(), r.decode("utf-8"))))
         resultat = fonctions.lister_contenu()
-        return json.dumps(resultat)
+        return json.dumps((os.getcwd(), resultat))
     except:
         return json.dumps(f"{r.decode('utf-8')} n'éxiste pas dans ce dossier.")
 
@@ -73,13 +73,17 @@ def custom():
 def screeshot():
     filename = "Capture_" + datetime.datetime.strftime(datetime.datetime.now(), "%d-%m-%Y_%Hh%Mm%Ss") + ".png"
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    dir = base_dir + "\\client\\temporary\\"
+    dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = dir + filename
     capture = ImageGrab.grab()
-    capture.save(dir + filename, "PNG")
-    f = open(dir + filename, "rb")
+    # if not os.path.isdir(dir):
+    #     os.mkdir(dir)
+    capture.save(filename, "PNG")
+    print("1")
+    f = open(filename, "rb")
     response = f.read()
     f.close()
-    os.remove(dir + filename)
+    os.remove(filename)
     return response
 
 
@@ -98,6 +102,6 @@ def download():
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=12001)
+    app.run(host="0.0.0.0", port=12001)
 
 

@@ -8,7 +8,7 @@ export default function ScreenShot() {
     const { fetchData, responseServer } = useContext(APIContext);
 
     async function handleClick() {
-        fetchData('screenshot', "salut")
+        fetchData('screenshot', null, "json")
         console.log(await responseServer);
 
     }

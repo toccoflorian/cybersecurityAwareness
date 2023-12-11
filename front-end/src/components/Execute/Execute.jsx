@@ -15,9 +15,10 @@ export default function Execute() {
 
     return (<>
         <div>
-            <p>Elements se terminant par &#34;@&#34;.</p>
+            <p>Executer un fichier (.exe, .png, txt...)</p>
+            <p>Se terminant par &#34;@&#34;.</p>
             <input onChange={(e) => setInputContent(e.target.value)} type="text" />
-            <button onClick={handleClick}>Execute</button>
+            <button onClick={handleClick} className={`btn`} >Execute</button>
         </div>
     </>)
 }

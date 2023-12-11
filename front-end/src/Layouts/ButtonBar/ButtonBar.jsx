@@ -12,11 +12,20 @@ export default function ButtonBar() {
 
     return (<>
         <div className={`${styles.buttonBarContainer} d-flex flex-wrap justify-space-e align-center `}>
-            <Navigation />
-            <Download />
-            <Execute />
-            <ScreenShot />
-            <Destruction />
+            <div>
+                <Navigation />
+            </div>
+
+            <div>
+                <Download />
+                <Execute />
+            </div>
+
+            <div>
+                <ScreenShot />
+            </div>
+
         </div>
+        <Destruction />
     </>)
 }

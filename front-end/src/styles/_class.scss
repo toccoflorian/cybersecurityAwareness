@@ -1,5 +1,6 @@
 .btn,
-select {
+
+input {
     min-width: 100px;
     height: max-content;
     padding: 5px 10px;
@@ -8,9 +9,14 @@ select {
 }
 
 .btn {
+    cursor: pointer;
     background-color: var(--button-color);
 }
 
-select {
-    background-color: var(--select-color);
+.destruction {
+    background-color: var(--warning-color);
+}
+
+input {
+    background-color: var(--input-color);
 }

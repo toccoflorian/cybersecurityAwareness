@@ -13,9 +13,10 @@ export default function Download() {
 
     return (<>
         <div>
-            <p>Elements se terminant par &#34;@&#34;.</p>
+            <p>Télécharger un fichier.</p>
+            <p>Se terminant par &#34;@&#34;.</p>
             <input onChange={(e) => setInputContent(e.target.value)} type="text" />
-            <button onClick={handleClick}>Télécharger</button>
+            <button onClick={handleClick} className={`btn`} >Télécharger</button>
         </div>
     </>)
 }

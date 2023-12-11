@@ -21,21 +21,21 @@ BASE_URL = f"http://{HOST}:12000"
 
 
 
-# # screenshot
-# result = requests.get(f"{BASE_URL}/screenshot")
-# print(result.content.decode())
+# screenshot
+result = requests.get(f"{BASE_URL}/screenshot")
+print(result.content.decode())
 
 
 
-# télécharger un fichier
-response = requests.get(f"{BASE_URL}/get_current_dir")
-data = json.loads(response.content)
-dir = data[0]
-filenames = data[1] # devra recevoir un filename
-file_path = json.dumps("\\".join((dir, str(filenames[1])))) 
-result = requests.get(f"{BASE_URL}/download", data=file_path)  # devra recevoir un file path 
-print()
-print(result.content.decode("utf-8"))
+# # télécharger un fichier
+# response = requests.get(f"{BASE_URL}/get_current_dir")
+# data = json.loads(response.content)
+# dir = data[0]
+# filenames = data[1] # devra recevoir un filename
+# file_path = json.dumps("\\".join((dir, str(filenames[1])))) 
+# result = requests.get(f"{BASE_URL}/download", data=file_path)  # devra recevoir un file path 
+# print()
+# print(result.content.decode("utf-8"))
 
 
 
