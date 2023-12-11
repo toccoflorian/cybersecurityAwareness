@@ -22,8 +22,6 @@ export function DataProvider({ children }) {
 
         switch (returnContentType) {
             case "json":
-                // console.log(response.json());
-
                 setDisplayContent([await response.json()]);
                 break;
             case "byte":

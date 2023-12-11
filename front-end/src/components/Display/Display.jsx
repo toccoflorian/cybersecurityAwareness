@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import styles from "./Display.module.scss";
 import { APIContext } from "../../APIServices/APIContext";
 
@@ -13,12 +13,12 @@ export default function Display() {
 
         <div className={`${styles.displayContainer} `}>
             <ul>
-
+                {/* double map pour mettre en forme le rendu final */}
                 {displayContent.
                     map((element, index) => {
                         let newElement = [];
-                        if (element.length > 1 && typeof element[1] !== "string") {
-                            newElement = [element[0], ...element[1]]
+                        if (element.length > 1 && typeof element[1] !== "string") { // si 'element' n'est pas une string et est composé de plus de 1 element
+                            newElement = [element[0], ...element[1]] // element: [string, [string, string]] 
                         } else {
                             newElement = element
                         }
@@ -31,6 +31,5 @@ export default function Display() {
                     })}
             </ul>
         </div>
-
     </>)
 }

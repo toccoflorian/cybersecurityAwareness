@@ -23,7 +23,6 @@ def receive_command():
 def go_dir():
     r = request.get_data()
     try:
-        
         os.chdir("\\".join((os.getcwd(), r.decode("utf-8"))))
         resultat = fonctions.lister_contenu()
         return json.dumps(resultat)
@@ -44,10 +43,12 @@ def go_back():
 def execute():
     r = request.get_data()
     try:
-        subprocess.run(r.decode("utf-8"), shell=True, universal_newlines=True)
-        return r.decode("utf-8") + " executer avec succes!"
+        process = subprocess.run(r.decode("utf-8"), shell=True, capture_output=True, universal_newlines=True)
+        print(["Commande executer avec succes! ", ["RETOUR: ", process.stderr, r.decode("utf-8") + " executer avec succes! "]])
+        return json.dumps(["Commande executer avec succes! ", ["RETOUR: ", process.stderr, "" if process.stderr else r.decode("utf-8") +  " executer avec succes!"]])
     except:
-        return "Impossible d'executer " + r  + " !"
+        print("Impossible d'executer " + str(r.decode("ascii", 'replace'))  + " !")
+        return json.dumps("Impossible d'executer " + str(r.decode("ascii", 'replace'))  + " !")
     
 
     # commande custom
@@ -82,16 +83,19 @@ def screeshot():
     return response
 
 
+
 # download
 @app.route("/download", methods=["POST", "GET"])
 def download():
     r = request.get_data()
-    filename = json.loads(r)[:-1]
+    filename = "./" + r.decode("utf-8")[:-1]
     print(filename)
-    f = open(filename, "r+")
+    f = open(filename, "rb")
     data = f.read()
     f.close()
     return data
+
+
 
 if __name__ == "__main__":
     app.run(host="localhost", port=12001)
