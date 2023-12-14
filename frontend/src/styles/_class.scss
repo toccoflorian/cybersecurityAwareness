@@ -1,0 +1,32 @@
+.btn,
+
+input {
+    min-width: 100px;
+    height: max-content;
+    padding: 5px 10px;
+    border-radius: 8px;
+    // color: white;
+}
+
+.btn {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+.destruction {
+    background-color: var(--warning-color);
+}
+
+input {
+    background-color: var(--input-color);
+}
+
+.button-container {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.infos-text {
+    color: rgba(0, 0, 0, 0.5);
+}

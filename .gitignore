@@ -1,3 +1,6 @@
 node_modules/
 .env
 fichiers reçus/*
+*.spec
+dist/
+build/
